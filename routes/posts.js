@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
+const { requireAuth } = require('../middleware/auth');
 
 // Create
-router.post('/', async (req, res) => {
+router.post('/', requireAuth, async (req, res) => {
   try {
     const { title, body, author } = req.body;
     if (!title) return res.status(400).json({ error: 'Title is required' });

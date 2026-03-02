@@ -1,7 +1,9 @@
 ### Base URL
 
-@baseUrl = http://localhost:3000
+@baseUrl = https://api.hemat.makinmudah.com
 @id = 699ffb92fce0cf3403565047
+
+# @baseUrl http://localhost:3000
 
 
 ### 1) Create a Post
