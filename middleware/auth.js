@@ -1,8 +1,5 @@
-function requireAuth(req, res, next) {
-  if (!req.session.userId) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
-  next();
-}
+const passport = require("passport");
 
-module.exports = { requireAuth };
+const auth = passport.authenticate("jwt", { session: false });
+
+module.exports = auth;
