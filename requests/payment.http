@@ -1,0 +1,79 @@
+###
+
+@baseUrl = https://express.dhanifudin.com
+@token = REPLACE_WITH_TOKEN_FROM_LOGIN
+
+
+### 1) Create Snap transaction token — success (200)
+
+POST {{baseUrl}}/payments/snap/token HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "order_id": "ORDER-001",
+  "gross_amount": 50000,
+  "item_details": [
+    {
+      "id": "item-1",
+      "price": 50000,
+      "quantity": 1,
+      "name": "Example Item"
+    }
+  ],
+  "customer_details": {
+    "first_name": "Budi",
+    "last_name": "Santoso",
+    "email": "budi@example.com",
+    "phone": "08111222333"
+  }
+}
+
+
+### 2) Create Snap token — missing order_id (400)
+
+POST {{baseUrl}}/payments/snap/token HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "gross_amount": 50000
+}
+
+
+### 3) Create Snap token — no auth (401)
+
+POST {{baseUrl}}/payments/snap/token HTTP/1.1
+Content-Type: application/json
+
+{
+  "order_id": "ORDER-001",
+  "gross_amount": 50000
+}
+
+
+### 4) Midtrans payment notification webhook (no auth required)
+
+POST {{baseUrl}}/payments/notification HTTP/1.1
+Content-Type: application/json
+
+{
+  "order_id": "ORDER-001",
+  "status_code": "200",
+  "gross_amount": "50000.00",
+  "signature_key": "MIDTRANS_SIGNATURE",
+  "transaction_status": "settlement",
+  "fraud_status": "accept",
+  "payment_type": "credit_card"
+}
+
+
+### 5) Get transaction status — success (200)
+
+GET {{baseUrl}}/payments/status/ORDER-001 HTTP/1.1
+Authorization: Bearer {{token}}
+
+
+### 6) Get transaction status — no auth (401)
+
+GET {{baseUrl}}/payments/status/ORDER-001 HTTP/1.1

@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const passport = require("./config/passport");
 const userRouter = require("./routes/users");
 const postRouter = require("./routes/posts");
+const paymentRouter = require("./routes/payments");
 const auth = require("./middleware/auth");
 const errorHandler = require("./middleware/errorHandler");
 
@@ -31,6 +32,7 @@ app.use(passport.initialize());
 
 app.use("/users", userRouter);
 app.use("/posts", auth, postRouter);
+app.use("/payments", paymentRouter);
 
 app.use(errorHandler);
 
